@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "deploy": "wrangler deploy",
-    "dev": "wrangler dev",
+    "dev": "wrangler dev --name dizzy-server --port 1901 --inspector-port 9001",
+    "format": "prettier --write \"**/*.{ts,tsx,md,mts,json}\" --no-error-on-unmatched-pattern",
     "start": "wrangler dev",
     "test": "vitest",
     "cf-typegen": "wrangler types"
@@ -15,5 +16,9 @@
     "typescript": "^5.5.2",
     "vitest": "2.0.5",
     "wrangler": "^3.60.3"
+  },
+  "dependencies": {
+    "nanoid": "^5.0.7",
+    "prettier": "^3.3.3"
   }
 }

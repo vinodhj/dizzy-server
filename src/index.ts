@@ -1,18 +1,19 @@
-/**
- * Welcome to Cloudflare Workers! This is your first worker.
- *
- * - Run `npm run dev` in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run `npm run deploy` to publish your worker
- *
- * Bind resources to your worker in `wrangler.toml`. After adding bindings, a type definition for the
- * `Env` object can be regenerated with `npm run cf-typegen`.
- *
- * Learn more at https://developers.cloudflare.com/workers/
- */
+import { handleContact } from "./handle-contact";
+
+export interface Env {
+	ENQUIRY_JEEVA_RUBBER: KVNamespace;
+  }
 
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
-		return new Response('Hello World!');
+		try {
+			const url = new URL(request.url);
+			if (url.pathname === '/contact' && (request.method === 'POST' || request.method === 'OPTIONS')) {
+			  return handleContact(request, env);
+			} 
+			return new Response('Not found', { status: 404 });
+		  } catch (error) {
+			return new Response(String(error), { status: 500 });
+		  }
 	},
 } satisfies ExportedHandler<Env>;
