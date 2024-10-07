@@ -1,0 +1,23 @@
+name: Tests and Coverage Check For Pull Requests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Wrangler CLI
+        run: npm install -g wrangler
+
+      - name: Publish to Cloudflare Workers
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}  # Store your Cloudflare API token in GitHub Secrets
+        run: wrangler publish

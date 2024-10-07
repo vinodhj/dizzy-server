@@ -1,6 +1,7 @@
 #:schema node_modules/wrangler/config-schema.json
 name = "dizzy-server"
 main = "src/index.ts"
+account_id = "a0d4e3eee884eba161d66e3f4a847f16"
 compatibility_date = "2024-09-25"
 compatibility_flags = ["nodejs_compat"]
 
