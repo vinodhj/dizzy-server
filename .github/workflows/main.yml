@@ -14,15 +14,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'  # Adjust the Node.js version as needed
+      # - name: Install Node.js
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: '18'
 
       - name: Install Wrangler CLI
         run: npm install -g wrangler
 
       - name: Deploy to Cloudflare Workers
         env:
-          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}  # Store your Cloudflare API token in GitHub Secrets
+          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}  # Store your Cloudflare API token in GitHub Secrets
         run: wrangler deploy
