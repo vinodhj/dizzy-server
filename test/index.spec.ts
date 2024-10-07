@@ -1,25 +1,78 @@
 // test/index.spec.ts
 import { env, createExecutionContext, waitOnExecutionContext, SELF } from 'cloudflare:test';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import worker from '../src/index';
 
-// For now, you'll need to do something like this to get a correctly-typed
-// `Request` to pass to `worker.fetch()`.
-const IncomingRequest = Request<unknown, IncomingRequestCfProperties>;
-
-describe('Hello World worker', () => {
-  it('responds with Hello World! (unit style)', async () => {
-    const request = new IncomingRequest('http://example.com');
-    // Create an empty context to pass to `worker.fetch()`.
+describe('Contact Worker Tests', () => {
+  it('handles CORS preflight requests', async () => {
+    const request = new Request('http://example.com/contact', {
+      method: 'OPTIONS',
+    }) as Request<unknown, IncomingRequestCfProperties<unknown>> ;
     const ctx = createExecutionContext();
     const response = await worker.fetch(request, env, ctx);
-    // Wait for all `Promise`s passed to `ctx.waitUntil()` to settle before running test assertions
     await waitOnExecutionContext(ctx);
-    expect(await response.text()).toMatchInlineSnapshot(`"Hello World!"`);
+
+    expect(response.status).toBe(204);
+    expect(response.headers.get('Access-Control-Allow-Origin')).toBe('*');
+    expect(response.headers.get('Access-Control-Allow-Methods')).toBe('POST, OPTIONS');
+    expect(response.headers.get('Access-Control-Allow-Headers')).toBe('Content-Type');
   });
 
-  it('responds with Hello World! (integration style)', async () => {
-    const response = await SELF.fetch('https://example.com');
-    expect(await response.text()).toMatchInlineSnapshot(`"Hello World!"`);
+  it('handles valid POST requests', async () => {
+    const request = new Request('http://example.com/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: 'test@example.com',
+        message: 'Hello, this is a test message',
+        name: 'Test User',
+      }),
+    }) as Request<unknown, IncomingRequestCfProperties<unknown>> ;;
+    
+    // Mocking the KVNamespace put and get methods
+    const mockKVNamespace = {
+      put: vi.fn(),
+      get: vi.fn().mockResolvedValue(
+        JSON.stringify({
+          id: 'mocked_id',
+          email: 'test@example.com',
+          message: 'Hello, this is a test message',
+          name: 'Test User',
+        })
+      ),
+    };
+    
+    const ctx = createExecutionContext();
+    const response = await worker.fetch(request, env, ctx);
+    await waitOnExecutionContext(ctx);
+
+    expect(response.status).toBe(200);
+  });
+
+  it('handles missing data in POST requests', async () => {
+    const request = new Request('http://example.com/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: '', message: '', name: '' }),
+    }) as Request<unknown, IncomingRequestCfProperties<unknown>> ;;
+
+    const ctx = createExecutionContext();
+    const response = await worker.fetch(request, env, ctx);
+    await waitOnExecutionContext(ctx);
+
+    expect(response.status).toBe(400);
+    expect(await response.text()).toBe('Missing data');
+  });
+
+  it('returns 404 for unknown routes', async () => {
+    const request = new Request('http://example.com/unknown', {
+      method: 'GET',
+    }) as Request<unknown, IncomingRequestCfProperties<unknown>> ;;
+    const ctx = createExecutionContext();
+    const response = await worker.fetch(request, env, ctx);
+    await waitOnExecutionContext(ctx);
+
+    expect(response.status).toBe(404);
+    expect(await response.text()).toBe('Dizzy Server - Unknown route');
   });
 });

@@ -24,6 +24,9 @@ jobs:
 
       - name: Install dependencies with Bun
         run: bun install
+      
+      - name: Check coverage threshold
+        run: bun run test
 
       - name: Install Wrangler CLI
         run: bun install -g wrangler
