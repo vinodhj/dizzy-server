@@ -3,7 +3,7 @@ name: Tests and Coverage Check For Pull Requests
 on:
   push:
     branches:
-      - main
+      - prod
   pull_request:
     types: [opened, synchronize, reopened]
 
