@@ -1,6 +1,9 @@
-export function addCORSHeaders(): { [key: string]: string } {
-    return {
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json',
-    };
-  }
+/**
+ * Adds CORS headers to a Response object.
+ *
+ * @returns {HeadersInit} An object of CORS headers.
+ */
+export const addCORSHeaders = (): HeadersInit => ({
+  'Access-Control-Allow-Origin': '*',
+  'Content-Type': 'application/json',
+});

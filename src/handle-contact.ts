@@ -1,14 +1,25 @@
-
 import { nanoid } from 'nanoid/non-secure';
 import { addCORSHeaders } from './cors-headers';
 
-export async function handleContact(request: Request, env: Env): Promise<Response> {
+/**
+ * Handle a contact form submission.
+ *
+ * This function is expected to be called from a Cloudflare Worker.
+ * It handles both CORS preflight requests and actual form submissions.
+ * The form data is expected to be JSON-encoded in the request body.
+ * The form data is stored in a KV store.
+ *
+ * @param {Request} request The incoming request.
+ * @param {Env} env The environment variables.
+ * @returns {Promise<Response>} The response to the request.
+ */
+export const handleContact = async (request: Request, env: Env): Promise<Response> => {
   // Handle CORS preflight requests
   if (request.method === 'OPTIONS') {
     return new Response(null, {
       status: 204,
       headers: {
-        'Access-Control-Allow-Origin': '*', 
+        'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type',
       },
@@ -38,4 +49,4 @@ export async function handleContact(request: Request, env: Env): Promise<Respons
   return new Response(JSON.stringify(res), {
     headers: addCORSHeaders(),
   });
-}
+};
