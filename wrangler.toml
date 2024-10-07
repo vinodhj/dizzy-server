@@ -9,6 +9,13 @@ compatibility_flags = ["nodejs_compat"]
 binding = "ENQUIRY_JEEVA_RUBBER"
 id = "04e41530189a4bacacc7d75b88e9c264"
 
+[[kv_namespaces]]
+binding = "ENQUIRY_JEEVA_RUBBER_STAGING"
+id = "649f107a083348dca6d7ad7289cdbb97"
+
+[vars]
+ENVIRONMENT = "production"
+
 # Workers Logs
 # Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/
 # Configuration: https://developers.cloudflare.com/workers/observability/logs/workers-logs/#enable-workers-logs
@@ -120,8 +127,15 @@ enabled = true
 
 [env.staging]
 name = "dizzy-server-staging"
-workers_dev = false
+workers_dev = true
 
 [[env.staging.kv_namespaces]]
 binding = "ENQUIRY_JEEVA_RUBBER"
 id = "04e41530189a4bacacc7d75b88e9c264"
+
+[[env.staging.kv_namespaces]]
+binding = "ENQUIRY_JEEVA_RUBBER_STAGING"
+id = "649f107a083348dca6d7ad7289cdbb97"
+
+[env.staging.vars]
+ENVIRONMENT = "staging"

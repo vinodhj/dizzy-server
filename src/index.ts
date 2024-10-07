@@ -2,6 +2,8 @@ import { handleContact } from './handle-contact';
 
 export interface Env {
   ENQUIRY_JEEVA_RUBBER: KVNamespace;
+  ENQUIRY_JEEVA_RUBBER_STAGING: KVNamespace;
+  ENVIRONMENT: string;
 }
 
 export default {

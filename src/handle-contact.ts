@@ -38,9 +38,14 @@ export const handleContact = async (request: Request, env: Env): Promise<Respons
     name: body.name,
   };
 
+  let kv = env.ENQUIRY_JEEVA_RUBBER;
+  if (env.ENVIRONMENT === 'staging') {
+    kv = env.ENQUIRY_JEEVA_RUBBER_STAGING;
+  }
+  
   const cf_key = new Date().toISOString();
-  await env.ENQUIRY_JEEVA_RUBBER.put(cf_key, JSON.stringify(data));
-  const value = await env.ENQUIRY_JEEVA_RUBBER.get(cf_key);
+  await kv.put(cf_key, JSON.stringify(data));
+  const value = await kv.get(cf_key);
 
   if (value === null) {
     return new Response('Value not found', { status: 404 });
