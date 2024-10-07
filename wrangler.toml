@@ -117,3 +117,11 @@ enabled = true
 # [[vectorize]]
 # binding = "MY_INDEX"
 # index_name = "my-index"
+
+[env.staging]
+name = "dizzy-server-staging"
+workers_dev = false
+
+[[env.staging.kv_namespaces]]
+binding = "ENQUIRY_JEEVA_RUBBER"
+id = "04e41530189a4bacacc7d75b88e9c264"

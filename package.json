@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "deploy": "wrangler deploy",
+    "deploy:staging": "wrangler deploy --env staging",
     "dev": "wrangler dev --name dizzy-server --port 1901 --inspector-port 9001",
     "format": "prettier --write \"**/*.{ts,tsx,md,mts,json}\" --no-error-on-unmatched-pattern",
     "start": "wrangler dev",
