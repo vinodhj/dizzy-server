@@ -36,7 +36,6 @@ export const handleContact = async (request: Request, env: Env): Promise<Respons
     email: body.email,
     message: body.message,
     name: body.name,
-    timestamp: new Date().toISOString(),
   };
 
   const cf_key = new Date().toISOString();
