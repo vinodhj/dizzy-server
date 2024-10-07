@@ -1,4 +1,4 @@
-import { nanoid } from 'nanoid';
+//import { nanoid } from 'nanoid';
 import { addCORSHeaders } from './cors-headers';
 
 /**
@@ -38,7 +38,7 @@ export const handleContact = async (request: Request, env: Env): Promise<Respons
     timestamp: new Date().toISOString(),
   };
 
-  const id = nanoid();
+  const id = new Date().toISOString(); //nanoid();
   await env.ENQUIRY_JEEVA_RUBBER.put(id, JSON.stringify(data));
   const value = await env.ENQUIRY_JEEVA_RUBBER.get(id);
 
