@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 import { addCORSHeaders } from './cors-headers';
-
+const nano_id = () => nanoid(10);
 /**
  * Handle a contact form submission.
  *
@@ -32,17 +32,16 @@ export const handleContact = async (request: Request, env: Env): Promise<Respons
   }
 
   const data = {
+    id: nano_id(),
     email: body.email,
     message: body.message,
     name: body.name,
     timestamp: new Date().toISOString(),
   };
 
-  const nano_id = () => nanoid(10);
-  console.log("nanoid()", nano_id());
-  const id = new Date().toISOString(); //nanoid();
-  await env.ENQUIRY_JEEVA_RUBBER.put(id, JSON.stringify(data));
-  const value = await env.ENQUIRY_JEEVA_RUBBER.get(id);
+  const cf_key = new Date().toISOString();
+  await env.ENQUIRY_JEEVA_RUBBER.put(cf_key, JSON.stringify(data));
+  const value = await env.ENQUIRY_JEEVA_RUBBER.get(cf_key);
 
   if (value === null) {
     return new Response('Value not found', { status: 404 });
