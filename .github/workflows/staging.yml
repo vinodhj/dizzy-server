@@ -28,10 +28,10 @@ jobs:
       - name: Check coverage threshold
         run: bun run test
 
-      # - name: Install Wrangler CLI
-      #   run: bun install -g wrangler
+      - name: Install Wrangler CLI
+        run: bun install -g wrangler
 
-      # - name: Deploy to Cloudflare Workers
-      #   env:
-      #     CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}  # Store your Cloudflare API token in GitHub Secrets
-      #   run: wrangler deploy --env staging
+      - name: Deploy to Cloudflare Workers
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}  # Store your Cloudflare API token in GitHub Secrets
+        run: wrangler deploy --env staging
