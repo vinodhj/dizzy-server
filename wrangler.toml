@@ -13,6 +13,10 @@ id = "04e41530189a4bacacc7d75b88e9c264"
 binding = "ENQUIRY_JEEVA_RUBBER_STAGING"
 id = "649f107a083348dca6d7ad7289cdbb97"
 
+[[kv_namespaces]]
+binding = "SUBSCRIBE_JEEVA_RUBBER"
+id = "1b7a72b634b1497797c2ff8d157847ec"
+
 [vars]
 ENVIRONMENT = "production"
 
@@ -136,6 +140,10 @@ id = "04e41530189a4bacacc7d75b88e9c264"
 [[env.staging.kv_namespaces]]
 binding = "ENQUIRY_JEEVA_RUBBER_STAGING"
 id = "649f107a083348dca6d7ad7289cdbb97"
+
+[[env.staging.kv_namespaces]]
+binding = "SUBSCRIBE_JEEVA_RUBBER"
+id = "1b7a72b634b1497797c2ff8d157847ec"
 
 [env.staging.vars]
 ENVIRONMENT = "staging"

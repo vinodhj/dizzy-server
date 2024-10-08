@@ -3,5 +3,6 @@
 interface Env {
 	ENQUIRY_JEEVA_RUBBER: KVNamespace;
 	ENQUIRY_JEEVA_RUBBER_STAGING: KVNamespace;
+	SUBSCRIBE_JEEVA_RUBBER: KVNamespace;
 	ENVIRONMENT: string;
 }
